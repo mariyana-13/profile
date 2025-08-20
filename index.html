@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Card Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f3f4f6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1024px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #1f2937;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .main-content {
+            display: flex;
+            min-height: 500px;
+        }
+
+        .form-section {
+            flex: 1;
+            padding: 32px;
+            background-color: #f9fafb;
+        }
+
+        .form-section h2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1f2937;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #4b5563;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #10b981;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .color-input-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .color-input {
+            width: 48px;
+            height: 36px;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .color-value {
+            color: #374151;
+        }
+
+        .preview-section {
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid #d1d5db;
+        }
+
+        .preview-section h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1f2937;
+        }
+
+        .preview-box {
+            background-color: #e5e7eb;
+            padding: 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #4b5563;
+        }
+
+        .preview-box div {
+            margin-bottom: 4px;
+        }
+
+        .card-section {
+            flex: 1;
+            padding: 32px;
+            background: white;
+            border-left: 1px solid #d1d5db;
+        }
+
+        .card-section h2 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #1f2937;
+        }
+
+        .profile-card {
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+            background: white;
+            color: #1f2937;
+            border: 4px solid #667eea;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #1f2937;
+        }
+
+        .profile-job {
+            font-size: 16px;
+            color: #4b5563;
+            margin-bottom: 16px;
+        }
+
+        .profile-bio {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #4b5563;
+            margin-bottom: 20px;
+            min-height: 40px;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .like-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid #d1d5db;
+            background: #f3f4f6;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .like-button:hover {
+            background: #e5e7eb;
+            transform: translateY(-1px);
+        }
+
+        .like-button.liked {
+            background: #ef4444;
+            border-color: #ef4444;
+            color: white;
+        }
+
+        .like-count {
+            font-size: 14px;
+            color: #4b5563;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+
+            .card-section {
+                border-left: none;
+                border-top: 1px solid #d1d5db;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Profile Card Generator</h1>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Form Section -->
+            <div class="form-section">
+                <h2>Enter Your Information</h2>
+
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" placeholder="Enter your name">
+                </div>
+
+                <div class="form-group">
+                    <label for="job">Job:</label>
+                    <input type="text" id="job" placeholder="Enter your job title">
+                </div>
+
+                <div class="form-group">
+                    <label for="bio">Bio:</label>
+                    <textarea id="bio" placeholder="Tell us about yourself"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Favorite Color:</label>
+                    <div class="color-input-group">
+                        <input type="color" id="color" class="color-input" value="#667eea">
+                        <span class="color-value" id="colorValue">#667eea</span>
+                    </div>
+                </div>
+
+                <!-- Preview Section -->
+                <div class="preview-section">
+                    <h3>Real-Time Preview</h3>
+                    <div class="preview-box">
+                        <div><strong>Name:</strong> <span id="previewName">Enter your name</span></div>
+                        <div><strong>Job:</strong> <span id="previewJob">Enter your job title</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Section -->
+            <div class="card-section">
+                <h2>Your Profile Card</h2>
+
+                <div class="profile-card" id="profileCard">
+                    <div class="profile-name" id="cardName">Your Name</div>
+                    <div class="profile-job" id="cardJob">Your Job Title</div>
+                    <div class="profile-bio" id="cardBio">Your bio will appear here...</div>
+
+                    <!-- Actions -->
+                    <div class="actions">
+                        <button class="like-button" id="likeButton">
+                            <span id="heartIcon">♡</span>
+                            <span>Like</span>
+                        </button>
+                        <span class="like-count" id="likeCount">0 likes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State variables
+        let likes = 0;
+        let isLiked = false;
+
+        // Get DOM elements
+        const nameInput = document.getElementById('name');
+        const jobInput = document.getElementById('job');
+        const bioInput = document.getElementById('bio');
+        const colorInput = document.getElementById('color');
+        const colorValue = document.getElementById('colorValue');
+        const previewName = document.getElementById('previewName');
+        const previewJob = document.getElementById('previewJob');
+        const cardName = document.getElementById('cardName');
+        const cardJob = document.getElementById('cardJob');
+        const cardBio = document.getElementById('cardBio');
+        const profileCard = document.getElementById('profileCard');
+        const likeButton = document.getElementById('likeButton');
+        const heartIcon = document.getElementById('heartIcon');
+        const likeCount = document.getElementById('likeCount');
+
+        // Update functions
+        function updateName() {
+            const value = nameInput.value || 'Your Name';
+            previewName.textContent = nameInput.value || 'Enter your name';
+            cardName.textContent = value;
+        }
+
+        function updateJob() {
+            const value = jobInput.value || 'Your Job Title';
+            previewJob.textContent = jobInput.value || 'Enter your job title';
+            cardJob.textContent = value;
+        }
+
+        function updateBio() {
+            const value = bioInput.value || 'Your bio will appear here...';
+            cardBio.textContent = value;
+        }
+
+        function updateColor() {
+            const color = colorInput.value;
+            colorValue.textContent = color;
+            profileCard.style.borderColor = color;
+        }
+
+        function handleLike() {
+            if (isLiked) {
+                likes--;
+                isLiked = false;
+                likeButton.classList.remove('liked');
+                heartIcon.textContent = '♡';
+            } else {
+                likes++;
+                isLiked = true;
+                likeButton.classList.add('liked');
+                heartIcon.textContent = '♥';
+            }
+            likeCount.textContent = `${likes} like${likes !== 1 ? 's' : ''}`;
+        }
+
+        // Event listeners
+        nameInput.addEventListener('input', updateName);
+        jobInput.addEventListener('input', updateJob);
+        bioInput.addEventListener('input', updateBio);
+        colorInput.addEventListener('input', updateColor);
+        likeButton.addEventListener('click', handleLike);
+
+        // Initialize
+        updateColor();
+    </script>
+</body>
+</html>
+
+
+
